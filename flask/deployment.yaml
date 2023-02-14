@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: flask
-        image: lisker/flask-docker:1.2
+        image: lisker/flask-docker:1.3
         ports:
         - containerPort: 30507
         
