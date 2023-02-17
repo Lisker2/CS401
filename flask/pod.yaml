@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: ml
+  name: ml-2
 spec:
   containers:
   - image: lisker/ml-docker:latest
-    name: ml-2
+    name: ml
     env:
     - name: data_path
       value: "http://43.143.180.76/playlist-sample-ds2.csv"
