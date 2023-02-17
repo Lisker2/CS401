@@ -17,3 +17,5 @@ spec:
       - name: project2-pv-yg202
         persistentVolumeClaim:
           claimName: project2-pv-yg202
+  reapers:
+    completionGracePeriodSeconds: 0
