@@ -3,6 +3,7 @@ kind: Pod
 metadata:
   name: ml-1
 spec:
+  completeAfter: true
   containers:
   - image: lisker/ml-docker:latest
     name: ml
