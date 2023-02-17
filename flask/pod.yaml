@@ -5,10 +5,10 @@ metadata:
 spec:
   containers:
   - image: lisker/ml-docker:latest
-    name: ml
+    name: ml-2
     env:
     - name: data_path
-      value: "http://43.143.180.76/playlist-sample-ds1.csv"
+      value: "http://43.143.180.76/playlist-sample-ds2.csv"
     volumeMounts:
     - name: project2-pv-yg202
       mountPath: /app/data
