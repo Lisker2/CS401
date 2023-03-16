@@ -73,6 +73,12 @@ Your serverless function should compute two stateless metrics at each point in t
 
 Your function should return a JSON-encodable dictionary containing at least P + 2 keys, where P is the number of CPUs monitored. A dictionary can be encoded in JSON if its keys are strings and its values are of type None, int, float, str, list, and dict, where the contained lists and dicts are also JSON- encodable. The keys should describe the output metric (for example avg-util- cpu1-60sec or percent-network-egress), and the values should be JSON-encodable objects that can be consumed by a monitoring dashboard (see Task 2).
 ### Monitoring Dashboard
+Choose one dashboarding framework. There are many libraries for dashboarding data. In Python, the Plotly Dash and Streamlit frameworks are popular solutions, but students are free to choose how to build the dashboard (including frameworks not written in Python, like D3.js). 
 ### Serverless Runtime
+In this task you will build a container image to replace the runtime image provided by the instructors. Your container image should be able to call serverless functions, passing any relevant parameters to the function and forwarding any returned values to their destinations.
+
+In the runtime provided for this assignment, data is periodically read from Redis and passed in as parameters to the function. When the function returns, results are stored on Redis, where they can be later be read by the dashboard.
+
+You should implement a compatible container runtime. Your container runtime must be able to replace the provided runtime and still operate with any function implemented for this assignment (assuming the function itself satisfied the integration requirements in Task 1).
 
   
