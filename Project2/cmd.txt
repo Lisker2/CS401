@@ -1,0 +1,69 @@
+wget --server-response \
+   --output-document response.out \
+   --header='Content-Type: application/json' \
+   --post-data '{"songs": ["Unforgettable", "XO TOUR Llif3"]}' \
+   http://localhost:30507
+
+wget --server-response \
+   --output-document response.out \
+   --header='Content-Type: application/json' \
+   --post-data '{"songs": ["Unforgettable", "XO TOUR Llif3"]}' \
+   http://10.96.233.102:30507
+
+docker build . -t lisker/flask-docker:latest
+docker push lisker/flask-docker:latest
+docker run -id -p 30507:30507 --name=flask lisker/flask-docker:latest
+
+docker run -id --name=ml lisker/ml-docker:latest
+docker build . -t lisker/ml-docker:latest
+docker push lisker/ml-docker:latest
+
+
+
+kubectl apply -f deployment.yaml
+kubectl create -f pod.yaml
+kubectl apply -f service.yaml
+kubectl get deployments
+kubectl get services
+kubectl patch svc argocd-server -p '{"spec": {"type": "NodePort"}}'
+kubectl get svc
+kubectl delete deploy flask-deployment
+kubectl delete service flask-service
+
+
+ssh -fNT -L 33330:10.96.233.102:30507 yg202@vcm
+ssh -fNT -L 31443:10.108.247.168:31443 yg202@vcm
+
+argocd proj list
+
+argocd login localhost:31443 --username yg202 --password yg202123456 --insecure
+
+- name: ml
+        image: lisker/ml-docker:latest
+        env:
+        - name: data_path
+          value: "http://43.143.180.76/playlist-sample-ds1.csv"
+        volumeMounts:
+        - name: project2-pv-yg202
+          mountPath: /app/data
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: songs2
+spec:
+  destination:
+    name: ''
+    namespace: yg202
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: flask
+    repoURL: 'https://github.com/Lisker2/argo.git'
+    targetRevision: HEAD
+  project: yg202-project2
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+    syncOptions:
+      - PruneLast=true

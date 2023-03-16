@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: project2-pv-yg202
+  namespace: yg202
+spec:
+  storageClassName: standard
+  volumeName: project2-pv-yg202
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:›
+      storage: 1Gi

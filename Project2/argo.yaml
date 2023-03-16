@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: songs
+spec:
+  destination:
+    name: ''
+    namespace: yg202
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: flask
+    repoURL: 'https://github.com/Lisker2/argo.git'
+    targetRevision: HEAD
+  project: yg202-project
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false

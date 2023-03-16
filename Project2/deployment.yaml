@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: flask
+        image: lisker/flask-docker:latest
+        env:
+        - name: version
+          value: "1.0"
+        ports:
+        - containerPort: 30507
+        volumeMounts:
+        - name: project2-pv-yg202
+          mountPath: /app/data
+      restartPolicy: Always
+      volumes:
+      - name: project2-pv-yg202
+        persistentVolumeClaim:
+          claimName: project2-pv-yg202
+        

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommendation</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+</head>
+<div class="codes">
+    <div class="container">
+        <div class="w3ls-heading">
+            <h2>Songs Recommendation System</h2>
+        </div>
+        <div class="row wow fadeInUp animated" data-wow-delay=".5s">
+            <div class="agileinfo-contact-form-grid">
+                <form action="/req" method="post">
+                    <input type="text" name="name" placeholder="Songs" required="">
+                    <button class="btn1">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="bs-docs-example wow fadeInUp animated" data-wow-delay=".5s">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Track_name</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for i in res %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{i}}</td>
+                </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+        <p class="wow fadeInUp animated" data-wow-delay=".5s">Version:<code>{{version}}</code></p>
+        <p class="wow fadeInUp animated" data-wow-delay=".5s">Date:<code>{{date}}</code></p>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dash-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dash
+  template:
+    metadata:
+      labels:
+        app: dash
+    spec:
+      containers:
+      - name: dash
+        image: lisker/dash-docker:latest
+        ports:
+        - containerPort: 31507
+      restartPolicy: Always
+        

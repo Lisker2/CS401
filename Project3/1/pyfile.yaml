@@ -1,0 +1,23 @@
+apiVersion: v1
+data:
+  pyfile: "import numpy as np\n\ndef handler(input,context):\n    output = {}\n    n_cpu
+    = 12\n    cpu = [\"CPU\"+str(i) for i in range(n_cpu)]\n    cpu_res = [0 for _
+    in range(n_cpu)]\n    for i in range(n_cpu):\n        i_cpu = context.env.get(i,[])\n
+    \       cpu_percent_i = input[\"cpu_percent-\"+str(i)]\n        i_cpu.append(cpu_percent_i)\n
+    \       n_cpu_i = len(i_cpu)\n        if n_cpu_i > 12:\n            i_cpu.pop(0)\n
+    \       context.env[i] = i_cpu\n        cpu_res[i] = np.round(np.mean(i_cpu),3)\n
+    \   output[\"CPU\"] = [cpu,cpu_res]\n    \n    buffers = context.env.get(\"buffers\",[])\n
+    \   buffers_temp = input[\"virtual_memory-buffers\"]\n    n_buffers = len(buffers)\n
+    \   buffers.append(buffers_temp)\n    cached = context.env.get(\"cached\",[])\n
+    \   cached_temp = len(cached)\n    cached.append(cached_temp)\n    n_cached =
+    len(cached)\n    if n_buffers > 12:\n        buffers.pop(0)\n    if n_cached >
+    12:\n        cached.pop(0)\n    context.env[\"buffers\"] = buffers\n    context.env[\"cached\"]
+    = cached\n    output[\"buffers\"] = np.round(np.mean(buffers),3)\n    output[\"cached\"]
+    = np.round(np.mean(cached),3)\n    return output\n\n"
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2023-03-04T15:04:23Z"
+  name: pyfile
+  namespace: yg202
+  resourceVersion: "5188008"
+  uid: bc0fe7de-7ebd-4006-8e6c-2ab33fc2d555

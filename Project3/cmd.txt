@@ -1,0 +1,30 @@
+ps -ef | grep redis\
+redis-cli
+kubectl create configmap pyfile --from-file pyfile=mymodule.py --output yaml
+
+kubectl create configmap outputkey \
+    --from-literal REDIS_OUTPUT_KEY=yg202-proj3-output \
+    --output yaml
+
+kubectl apply -f deployment.yaml
+
+docker run -id -e REDIS_INPUT_KEY="metrics" --name=standard lucasmsp/serverless:redis
+docker run -id -e REDIS_INPUT_KEY="metrics" --name=test lisker/sl:latest
+docker build . -t lisker/dash-docker:latest
+docker push lisker/dash-docker:latest
+docker run -id -p 31507:31507 --name=dash lisker/dash-docker:latest
+
+
+ssh -fNT -L 33331:10.108.163.199:31507 yg202@vcm
+
+docker build . -t lisker/sl:latest
+docker push lisker/sl:latest
+docker run -id -e REDIS_INPUT_KEY="metrics" --name=new lisker/sl:latest
+docker run -it -e REDIS_INPUT_KEY="metrics" lisker/sl:latest /bin/bash
+
+kubectl create configmap pyfile2 --from-file pyfile=mymodule.py --output yaml
+
+kubectl create configmap outputkey2 \
+    --from-literal REDIS_OUTPUT_KEY=output \
+    --output yaml
+
